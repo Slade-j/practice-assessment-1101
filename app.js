@@ -15,8 +15,10 @@ const asyncHandler = (handler) => {
 }
 
 app.get('/', asyncHandler(async (req, res) => {
-
-})
+ const people = await Person.findAll( { include: [HairColor] });
+ console.log(people.HairColor)
+ res.render('home', { title: 'Home', people });
+}))
 
 app.get('/new-person', csrfProtecton, asyncHandler(async (req, res) => {
   const colors = await HairColor.findAll();

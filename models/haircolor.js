@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     color: DataTypes.STRING
   }, {});
   HairColor.associate = function(models) {
-    HairColor.hasMany(models.Person, { foreignKey: 'hairColorId' });
+    // HairColor.hasMany(models.Person, { foreignKey: 'hairColorId' });
   };
   return HairColor;
 };
