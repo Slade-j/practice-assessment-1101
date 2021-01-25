@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     hairColorId: DataTypes.INTEGER
   }, {});
   Person.associate = function(models) {
-    Person.belongsTo(models.HairColer, { foreignKey: 'hairColorId' });
+    Person.belongsTo(models.HairColor, { foreignKey: 'hairColorId' });
   };
   return Person;
 };

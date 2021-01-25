@@ -1,11 +1,36 @@
-/**
- * TODO: Create and configure your Express.js application in here.
- *       You must name the variable that contains your Express.js
- *       application "app" because that is what is exported at the
- *       bottom of the file.
- */
+const express = require('express');
+const csrf = require('csurf');
+const cookieParser = require('cookie-parser');
+const { HairColor, Person } = require('./models');
 
+const app = express();
 
+app.use(express.urlencoded({extended: true }));
+app.use(cookieParser());
+app.set('view engine', 'pug');
+
+const csrfProtecton = csrf({ cookie: true });
+const asyncHandler = (handler) => {
+  return (req, res, next) => handler(req, res, next).catch(next);
+}
+
+app.get('/', asyncHandler(async (req, res) => {
+
+})
+
+app.get('/new-person', csrfProtecton, asyncHandler(async (req, res) => {
+  const colors = await HairColor.findAll();
+  res.render('new-person', { colors, title: 'New Person', csrfToken: req.csrfToken() });
+}));
+
+app.post('/new-person', csrfProtecton, asyncHandler(async (req, res) => {
+  const { firstName, lastName, age, biography, hairColorId } = req.body;
+  await Person.create( { firstName, lastName, age, biography, hairColorId });
+  res.redirect('/');
+}));
+
+const port = 8081;
+app.listen(port, console.log(`Listending on port: ${port}...`));
 
 
 
